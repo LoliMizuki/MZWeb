@@ -1,0 +1,14 @@
+{
+  "pins" : [
+    {
+      "identity" : "mzswifts",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/LoliMizuki/MZSwifts",
+      "state" : {
+        "branch" : "main",
+        "revision" : "699883a07a380d198e2db5043d34716df482657c"
+      }
+    }
+  ],
+  "version" : 2
+}
