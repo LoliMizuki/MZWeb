@@ -97,7 +97,7 @@ extension MZWebSerivceProtocol {
         request.httpMethod = httpMethod().rawValue
         request.httpBody = httpBody()
         
-        MZWeb.shared.commonConfigToRequest(&request)
+        MZWeb.shared.commonConfigToRequest(&request, for: self)
         moreConfigToRequest(&request)
         
         MZWeb.log(for: request, serviceName: self.name)
