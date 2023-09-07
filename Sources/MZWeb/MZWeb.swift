@@ -17,7 +17,11 @@ public class MZWeb {
     
     public var apiURL: URL!
     public var isEnableLog: Bool { true }
+    public var commonConfigActionToRequest: ((inout URLRequest) -> ())? = nil
     
+    internal func commonConfigToRequest(_ request: inout URLRequest) {
+        commonConfigActionToRequest?(&request)
+    }
     
     // MARK: Private
     
