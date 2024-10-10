@@ -6,8 +6,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/LoliMizuki/MZSwiftsXCFrk",
       "state" : {
-        "revision" : "06a89347439b0f7ef9f77cec0ef98837d0bb78c7",
-        "version" : "1.4.0"
+        "revision" : "d982a4a6272752f26d787861e3fc56b617d5f7a6",
+        "version" : "1.4.2"
       }
     }
   ],
