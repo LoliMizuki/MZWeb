@@ -111,7 +111,7 @@ extension MZWebSerivceProtocol {
 
 extension MZWebSerivceProtocol {
     
-    func request() async throws -> ResultType {
+    public func request() async throws -> ResultType {
         try await startRequest().values.first { _ in true }!
     }
 }
