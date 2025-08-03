@@ -108,3 +108,10 @@ extension MZWebSerivceProtocol {
     public func moreConfigToRequest(_ request: inout URLRequest) { }
 }
 
+
+extension MZWebSerivceProtocol {
+    
+    func request() async throws -> ResultType {
+        try await startRequest().values.first { _ in true }!
+    }
+}

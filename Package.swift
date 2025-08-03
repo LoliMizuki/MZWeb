@@ -20,7 +20,10 @@ let package = Package(
 
     targets: [
         .target(
-            name: "MZWeb"
+            name: "MZWeb",
+            dependencies: [
+                .product(name: "MZSwifts", package: "MZSwiftsXCFrk")
+            ]
         ),
         .testTarget(
             name: "MZWebTests",
