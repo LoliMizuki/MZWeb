@@ -1,13 +1,13 @@
 {
-  "originHash" : "56f74e8eaa1bf9db93371e43868cbf296215b508244bde9065b177b99a0de32d",
+  "originHash" : "0eacb405d79ae6f619c973ff5545741bc784708487e23046dbe9d1760eb624e1",
   "pins" : [
     {
       "identity" : "mzswiftsxcfrk",
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/LoliMizuki/MZSwiftsXCFrk",
       "state" : {
-        "revision" : "d982a4a6272752f26d787861e3fc56b617d5f7a6",
-        "version" : "1.4.2"
+        "revision" : "deced43638518f932a13cb17f904113202bc49aa",
+        "version" : "1.4.4"
       }
     }
   ],

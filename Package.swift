@@ -1,4 +1,4 @@
-// swift-tools-version:5.10
+// swift-tools-version: 6.1
 // The swift-tools-version declares the minimum version of Swift required to build this package.
 
 import PackageDescription
@@ -15,7 +15,7 @@ let package = Package(
     ],
     
     dependencies: [
-        .package(url: "https://github.com/LoliMizuki/MZSwiftsXCFrk", from: "1.4.0")
+        .package(url: "https://github.com/LoliMizuki/MZSwiftsXCFrk", from: "1.4.4")
     ],
 
     targets: [
