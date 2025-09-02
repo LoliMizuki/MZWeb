@@ -12,11 +12,11 @@ import MZSwifts
 
 public class MZWeb {
     
-    @MainActor
+    nonisolated(unsafe)
     static public let shared: MZWeb = .init()
     
     public var apiURL: URL!
-    public var isEnableLog: Bool { true }
+    public var isEnableLog: Bool = false
     public var commonConfigActionToRequest: ((inout URLRequest, any MZWebSerivceProtocol) -> ())? = nil
     
     internal func commonConfigToRequest(_ request: inout URLRequest,
@@ -162,7 +162,6 @@ extension MZWeb {
         private init() { }
     }
     
-    @MainActor
     internal class func log(_ message: String?, forServiceName name: String) {
         guard MZWeb.shared.isEnableLog else { return }
         guard let message = message else { return }
@@ -170,14 +169,12 @@ extension MZWeb {
         MZDebug.log("\(name): \(message)")
     }
     
-    @MainActor
     internal class func log(error: Error) {
         guard MZWeb.shared.isEnableLog else { return }
         
         MZDebug.log("Error: \(error.localizedDescription)")
     }
     
-    @MainActor
     internal class func log(for request: URLRequest, serviceName: String) {
         guard MZWeb.shared.isEnableLog else { return }
         
