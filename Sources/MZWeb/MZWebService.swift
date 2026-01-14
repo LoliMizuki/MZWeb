@@ -10,7 +10,7 @@ import Combine
 
 
 public protocol MZWebSerivceParametersType { }
-public protocol MZWebSerivceResultType { }
+public protocol MZWebSerivceResultType: Sendable { }
 
 public typealias URLSessionDataTaskPublisher = AnyPublisher<URLSession.DataTaskPublisher.Output,
                                                             URLSession.DataTaskPublisher.Failure>
@@ -29,6 +29,7 @@ public protocol MZWebSerivceProtocol: AnyObject {
     
     init(_ parameters: ParametersType?)
 
+    nonisolated
     func startRequest() -> MZWebPublisher
     
     func beforeRequest() -> AnyPublisher<(), Error>
@@ -112,6 +113,7 @@ extension MZWebSerivceProtocol {
 
 extension MZWebSerivceProtocol {
     
+    nonisolated
     public func request() async throws -> ResultType {
         try await startRequest().values.first { _ in true }!
     }
