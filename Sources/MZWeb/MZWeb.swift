@@ -10,9 +10,9 @@ import Combine
 import MZSwifts
 
 
-nonisolated
+@MainActor
 public class MZWeb {
-    
+
     static public let shared: MZWeb = .init()
     
     
