@@ -10,10 +10,11 @@ import Combine
 import MZSwifts
 
 
+nonisolated
 public class MZWeb {
     
-    nonisolated(unsafe)
     static public let shared: MZWeb = .init()
+    
     
     public var apiURL: URL!
     public var isEnableLog: Bool = false

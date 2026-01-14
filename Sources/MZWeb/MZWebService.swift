@@ -15,6 +15,7 @@ public protocol MZWebSerivceResultType { }
 public typealias URLSessionDataTaskPublisher = AnyPublisher<URLSession.DataTaskPublisher.Output,
                                                             URLSession.DataTaskPublisher.Failure>
 
+nonisolated
 public protocol MZWebSerivceProtocol: AnyObject {
     
     typealias ResultRawInfo = MZWeb.ResultRawInfo
@@ -27,7 +28,7 @@ public protocol MZWebSerivceProtocol: AnyObject {
     var serivceDescription: String? { get }
     
     init(_ parameters: ParametersType?)
-    
+
     func startRequest() -> MZWebPublisher
     
     func beforeRequest() -> AnyPublisher<(), Error>
