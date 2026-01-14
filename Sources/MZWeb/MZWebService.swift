@@ -15,7 +15,7 @@ public protocol MZWebSerivceResultType { }
 public typealias URLSessionDataTaskPublisher = AnyPublisher<URLSession.DataTaskPublisher.Output,
                                                             URLSession.DataTaskPublisher.Failure>
 
-nonisolated
+@MainActor
 public protocol MZWebSerivceProtocol: AnyObject {
     
     typealias ResultRawInfo = MZWeb.ResultRawInfo
