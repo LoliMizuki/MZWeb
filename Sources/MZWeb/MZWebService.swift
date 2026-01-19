@@ -10,16 +10,13 @@ import Combine
 
 
 public protocol MZWebSerivceParametersType { }
-public protocol MZWebSerivceResultType: Sendable { }
+public protocol MZWebSerivceResultType { }
 
-public typealias URLSessionDataTaskPublisher = AnyPublisher<URLSession.DataTaskPublisher.Output,
-                                                            URLSession.DataTaskPublisher.Failure>
 
 @MainActor
 public protocol MZWebSerivceProtocol: AnyObject {
     
     typealias ResultRawInfo = MZWeb.ResultRawInfo
-    typealias MZWebPublisher = AnyPublisher<ResultType, Error>
     
     associatedtype ParametersType: MZWebSerivceParametersType
     associatedtype ResultType: MZWebSerivceResultType
@@ -28,16 +25,12 @@ public protocol MZWebSerivceProtocol: AnyObject {
     var serivceDescription: String? { get }
     
     init(_ parameters: ParametersType?)
-
-    nonisolated
-    func startRequest() -> MZWebPublisher
     
-    func beforeRequest() -> AnyPublisher<(), Error>
-    func urlRequestPubliser() -> URLSessionDataTaskPublisher
-    func serivceResultPubliser(resultInfo: ResultRawInfo) -> MZWebPublisher
+    func beforeRequest() async throws
+    func createRequest() -> URLRequest
     
-    // # functions for urlRequestPubliser
-    func request() -> URLRequest
+    func request() async throws -> ResultType
+    
     func apiSubURLString() -> String
     func httpMethod() -> MZWeb.HttpMethod
     func httpBody() -> Data?
@@ -53,46 +46,20 @@ extension MZWebSerivceProtocol {
     
     public var serivceDescription: String? { nil }
     
-    public func startRequest() -> MZWebPublisher {
-        MZWeb.log(serivceDescription, forServiceName: name)
+    public func request() async throws -> ResultType {
+        try await beforeRequest()
         
-        return beforeRequest()
-            .flatMap { () -> AnyPublisher<URLSession.DataTaskPublisher.Output, Error> in
-                self.urlRequestPubliser()
-                    .mapError { $0 }
-                    .eraseToAnyPublisher()
-            }
-            .flatMap { data, response -> MZWebPublisher in
-                let resultInfo = ResultRawInfo(serviceName: self.name,
-                                               data: data,
-                                               response: response)
-                
-                MZWeb.log(resultInfo.message, forServiceName: resultInfo.serviceName)
-                
-                return self.serivceResultPubliser(resultInfo: resultInfo)
-            }
-            .eraseToAnyPublisher()
-    }
-    
-    public func urlRequestPubliser() -> URLSessionDataTaskPublisher {
-        URLSession.shared.dataTaskPublisher(for: request()).eraseToAnyPublisher()
-    }
-    
-    public func serivceResultPubliser(resultInfo: ResultRawInfo) -> MZWebPublisher {
-//        if let error = Error.catchCommon(for: resultInfo) {
-//            return Fail(error: error).eraseToAnyPublisher()
-//        }
+        let (data, response) = try await URLSession.shared.data(for: createRequest())
+        let resultInfo = ResultRawInfo(serviceName: name, data: data, response: response)
         
         if let error = catchError(resultInfo: resultInfo) {
-            return Fail(error: error).eraseToAnyPublisher()
+            throw error
         }
         
-        return Just(result(of: resultInfo))
-            .setFailureType(to: Error.self)
-            .eraseToAnyPublisher()
+        return result(of: resultInfo)
     }
     
-    public func request() -> URLRequest {
+    public func createRequest() -> URLRequest {
         let apiURL = URLComponents(string: "\(MZWeb.shared.apiURL!)\(apiSubURLString())")!.url!
         var request = URLRequest(url: apiURL)
         
@@ -108,13 +75,4 @@ extension MZWebSerivceProtocol {
     }
     
     public func moreConfigToRequest(_ request: inout URLRequest) { }
-}
-
-
-extension MZWebSerivceProtocol {
-    
-    nonisolated
-    public func request() async throws -> ResultType {
-        try await startRequest().values.first { _ in true }!
-    }
 }

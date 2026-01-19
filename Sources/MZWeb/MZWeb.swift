@@ -14,8 +14,7 @@ import MZSwifts
 public class MZWeb {
 
     static public let shared: MZWeb = .init()
-    
-    
+        
     public var apiURL: URL!
     public var isEnableLog: Bool = false
     public var commonConfigActionToRequest: ((inout URLRequest, any MZWebSerivceProtocol) -> ())? = nil
@@ -24,6 +23,7 @@ public class MZWeb {
                                         for service: any MZWebSerivceProtocol) {
         commonConfigActionToRequest?(&request, service)
     }
+    
     
     // MARK: Private
     
@@ -163,6 +163,7 @@ extension MZWeb {
         private init() { }
     }
     
+    @MainActor
     internal class func log(_ message: String?, forServiceName name: String) {
         guard MZWeb.shared.isEnableLog else { return }
         guard let message = message else { return }
